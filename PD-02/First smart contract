@@ -1,0 +1,35 @@
+/*
+code to log my running preformance. Works in two ways, you can either create a name (l 25) or use your adress. 
+To use this system with you own name: you can check wheter your name is available at names. after that you can put in your score at addRunningScore.
+after that you can tetreive your score at running. 
+
+For your adress you can put your scores in addOwnRunningScore and retreive it at myScore.
+*/
+pragma solidity ^0.6.0;
+
+
+contract Tommy_running_log {
+  	mapping(uint8 => string) public names;
+    mapping(uint8 => Run) public running;
+    mapping(address => mapping(uint8 => Run)) public myScore;
+
+    struct Run {
+        string distance_km_h;
+        string time_min;
+
+    }
+  
+    constructor() public {
+        names[1] = "Tommy";
+
+    }
+
+    function addRunningScore(uint8 id, string memory distance_km_h, string memory time_min) public {
+        running[id] = Run(distance_km_h, time_min);
+
+    }
+    
+    function addOwnRunningScore(uint8 id, string memory distance_km_h, string memory time_min) public {
+        myScore[msg.sender][id] = Run(distance_km_h, time_min);
+    }
+}
