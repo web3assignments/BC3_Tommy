@@ -1,0 +1,55 @@
+pragma solidity ^0.5.0;
+
+
+contract Tommy_running_log {
+    string[] public Names= ["Tommy"];
+    mapping(uint8 => string) public names;
+    mapping(string => Run) public running;
+    mapping(address => mapping(string => Run)) public myScore;
+    string public result;
+    uint public bodymi;
+
+    struct Run {
+        uint distance_km_h;
+        uint time_min;
+    
+    }
+    
+    function Add_name (string memory i) public {
+        Names.push(i);
+        
+    }
+    
+    function amount(uint _time_min, uint distance_km_h) public{
+        if(_time_min < 0) {
+            result ="input is not valid";
+            revert ("invalid value");
+        }
+        require(
+            distance_km_h <= 0,
+            "not a valid value"
+            
+            );
+    }
+    
+    event bmi(uint weight, uint height);
+    
+    function BMI(uint _weight, uint _height) public{
+        emit bmi(_weight, _height);
+        bodymi = ( _weight / ((_height/100) **2)); //does not work..........
+        require(
+            bodymi > 25,
+            "You are overweight"
+            );
+    }
+  
+
+    function addRunningScore(uint distance_km_h, uint time_min) public {
+        running[Names[0]] = Run(distance_km_h, time_min);
+
+    }
+    
+    function addOwnRunningScore(uint distance_km_h, uint time_min) public {
+        myScore[msg.sender][Names[0]] = Run(distance_km_h, time_min);
+    }
+}`
