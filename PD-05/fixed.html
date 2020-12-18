@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <body>
+        <div>
+            <input type="text" id="amount">
+            <p id='balance'></p>
+            <button id='deposit'>Deposit</button>
+            <button id='withdraw'>Withdraw</button>
+            <pre id="log" style="width:100%;height:200px"></pre>
+            <div>
+
+                <!--script language="JavaScript" type="text/javascript" src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script-->
+                <script language="JavaScript" type="text/javascript" src="https://unpkg.com/web3@latest/dist/web3.min.js"></script>
+                <script src="https://code.jquery.com/jquery-3.5.1.min.js" ></script>
+                <script>
+        function log(logstr) {   
+            document.getElementById("log").innerHTML +=logstr+"\n";
+        }                
+                    const metamaskInstalled = typeof window.web3 !== "undefined"
+                    var contract;
+                    $(document).ready(async function() {
+                        var web3 = new Web3(Web3.givenProvider);
+                        log(`Version of web3.js: ${web3.version}`);
+                        
+                        var result=await web3.eth.requestAccounts().catch(x=>log(x.message));
+                        
+                        
+                        web3.eth.getAccounts(function(err, accounts) {
+                            if (err != null) console.error("An error occurred: " + err);
+                            else if (accounts.length == 0) console.log("User is not logged in to MetaMask");
+                            else console.log("User is logged in to MetaMask");
+                        });
+
+                        var address = "0xd9145CCE52D386f254917e481eB44e9943F39138"
+                        var abi = [{
+                            "inputs": [{
+                                "internalType": "int256",
+                                "name": "amt",
+                                "type": "int256"
+                            }],
+                            "name": "deposit",
+                            "outputs": [],
+                            "stateMutability": "nonpayable",
+                            "type": "function"
+                        }, {
+                            "inputs": [],
+                            "stateMutability": "nonpayable",
+                            "type": "constructor"
+                        }, {
+                            "inputs": [{
+                                "internalType": "int256",
+                                "name": "amt",
+                                "type": "int256"
+                            }],
+                            "name": "withdraw",
+                            "outputs": [],
+                            "stateMutability": "nonpayable",
+                            "type": "function"
+                        }, {
+                            "inputs": [],
+                            "name": "getBalance",
+                            "outputs": [{
+                                "internalType": "int256",
+                                "name": "",
+                                "type": "int256"
+                            }],
+                            "stateMutability": "view",
+                            "type": "function"
+                        }]
+
+                        contract = new web3.eth.Contract(abi, address);
+
+                        contract.methods.getBalance().call().then(function(bal) {
+                            $('#balance').html(bal);
+
+                        })
+
+                    })
+
+                    $('#deposit').click(function() {
+
+                        var amt = 0;
+                        amt = parseInt($('#amount'.val()));
+
+                        web3.eth.getAccounts().then(function(accounts) {
+                                var acc = accounts[0];
+                                return contract.methods.deposit(amt).send({
+                                    from: acc
+                                })
+
+                            })
+                            .then(function(tx) {
+
+                                console.log(tx);
+
+                            }).catch(function(tx) {
+                                console.log(tx);
+                            })
+                    })
+                    
+                    </script>
+                        </body>
+</html>
