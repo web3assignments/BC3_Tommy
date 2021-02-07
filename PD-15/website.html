@@ -1,0 +1,47 @@
+<!-- eind opdracht -->
+<!DOCTYPE html>
+<html>
+
+<head>
+    <html lang="en" onclick="jump()">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="app.css">
+<body>
+
+    <div id="game">
+        <div id="block"></div>
+        <div id="hole"></div>
+        <div id="character"></div>
+    <body>
+        <div>
+            <pre id="log" style="width:100%;height:0px"></pre>
+            <div>
+                <h1 class="header">Tommy game</h1>
+                <pre id="log" style="width:100%;height:200px"></pre>
+                <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+                <div>
+         <td>
+                <script language="JavaScript" type="text/javascript" src="https://unpkg.com/web3@latest/dist/web3.min.js"></script>
+                <script language="JavaScript" type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+                <script src="app.js"></script>
+            <meta charset="utf-8">
+
+                <script>
+                    function log(logstr) {
+                        document.getElementById("log").innerHTML += logstr + "\n";
+                    }
+                    const metamaskInstalled = typeof window.web3 !== "undefined"
+                    $(document).ready(async function() {
+                        web3 = new Web3(Web3.givenProvider);
+                        log(`Version of web3.js: ${web3.version}`);
+
+                        var result = await web3.eth.requestAccounts().catch(x => log(x.message));
+                        web3.eth.getAccounts(function(err, accounts) {
+                            if (err != null) console.error("An error occurred: " + err);
+                            else if (accounts.length == 0) console.log("User is not logged in to MetaMask");
+                            else console.log("User is logged in to MetaMask");
+                        });
+            
+                    })        
+                </script>
+</html>
