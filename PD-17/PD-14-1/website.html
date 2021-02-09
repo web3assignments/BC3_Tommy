@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+
+    <body>
+        <div>
+
+            <pre id="log" style="width:100%;height:200px"></pre>
+            <div>
+
+                <script language="JavaScript" type="text/javascript" src="https://unpkg.com/web3@latest/dist/web3.min.js"></script>
+                <script language="JavaScript" type="text/javascript" src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+
+                <script>
+                    function log(logstr) {
+                        document.getElementById("log").innerHTML += logstr + "\n";
+                    }
+                    const metamaskInstalled = typeof window.web3 !== "undefined"
+                    var contract;
+                    $(document).ready(async function() {
+                        web3 = new Web3(Web3.givenProvider);
+                        log(`Version of web3.js: ${web3.version}`);
+
+                        var result = await web3.eth.requestAccounts().catch(x => log(x.message));
+                        web3.eth.getAccounts(function(err, accounts) {
+                            if (err != null) console.error("An error occurred: " + err);
+                            else if (accounts.length == 0) console.log("User is not logged in to MetaMask");
+                            else console.log("User is logged in to MetaMask");
+
+
+                        });
+                        async function f() { 
+                        const name='pd-14.eth';
+                        log(`Checking ${name}`);            
+                        var address=await web3.eth.ens.getAddress(name);
+                        log (`Address: ${address}`);  
+                        }
+                        f();
+
+                    })
+                </script>
+
+
+
+</html>
